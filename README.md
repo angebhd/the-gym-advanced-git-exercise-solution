@@ -534,5 +534,209 @@ ce3596a (origin/main, origin/HEAD) HEAD@{9}: clone: from https://github.com/ange
 
 ```
 
+## Part 2 : Branching Basics
+
+### 1. Feature Branch Creation
+
+```bash
+git checkout -b ft/new-feature
+Switched to a new branch 'ft/new-feature'
+
+```
+
+### 2. Working on the Feature Branch
+
+```bash
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ touch feature.txt
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ vim feature.txt 
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git add feature.txt 
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git commit -m "Implemented core functionality for new feature"
+[ft/new-feature eb26b5d] Implemented core functionality for new feature
+ 2 files changed, 3 insertions(+)
+ create mode 100644 feature.txt
+ create mode 100644 test5.md
+```
+
+### 3. Switching Back and Making More Changes
+ 
+```bash
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ touch readme.txt
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ vim readme.txt 
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git add readme.txt 
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git commit -m "Updated project readme"
+[main eba42aa] Updated project readme
+ 1 file changed, 1 insertion(+)
+ create mode 100644 readme.txt
+```
+
+### 4. Local vs. Remote Branches
+
+[Local vs. Remote Branches](https://www.baeldung.com/ops/git-synchronize-local-remote-branches)
+
+### 5. Branch Deletion
+
+```bash
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git branch
+  ft/branch
+  ft/new-feature
+* main
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git merge ft/new-feature 
+Merge made by the 'ort' strategy.
+ feature.txt | 1 +
+ test5.md    | 2 ++
+ 2 files changed, 3 insertions(+)
+ create mode 100644 feature.txt
+ create mode 100644 test5.md
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git branch -d ft/new-feature 
+Deleted branch ft/new-feature (was eb26b5d).
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git branch
+  ft/branch
+* main
+```
+
+### 6. Creating a Branch from a Commit
+
+```bash
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git checkout -b ft/new-branch-from-commit eba42aa1a35061f1cd2cc3b970a0b9d302778e53
+Switched to a new branch 'ft/new-branch-from-commit'
+
+```
+
+### 7. Branch Merging
+
+```bash
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git branch
+  ft/branch
+* ft/new-branch-from-commit
+  main
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ mv readme.md README
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git add .
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git commit -m "Renaming readme file"
+[ft/new-branch-from-commit 7a023e6] Renaming readme file
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git checkout main 
+Switched to branch 'main'
+Your branch and 'origin/main' have diverged,
+and have 5 and 6 different commits each, respectively.
+  (use "git pull" if you want to integrate the remote branch with yours)
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git merge ft/new-branch-from-commit 
+Merge made by the 'ort' strategy.
+ README | 1 +
+ 1 file changed, 1 insertion(+)
+ create mode 100644 README
+
+```
+
+### 8. Branch Rebasing
+
+```bash
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git log
+commit 7a023e67f55bbbad7bce24afec52e29cf00d5c78 (HEAD -> ft/new-branch-from-commit)
+Author: Asifiwe BUHENDWA <mickaelbhd@gmail.com>
+Date:   Tue Mar 4 10:50:52 2025 +0200
+
+    Renaming readme file
+
+commit eb26b5deac431070e60674d9251a0d0cd2eef0be
+Author: Asifiwe BUHENDWA <mickaelbhd@gmail.com>
+Date:   Mon Mar 3 14:01:27 2025 +0200
+
+    Implemented core functionality for new feature
+
+commit 2e68a4cbf9e9c1319410e26e827b5b8f1be2f239
+Author: Asifiwe Buhendwa <mickaelbhd@gmail.com>
+Date:   Mon Mar 3 10:40:55 2025 +0200
+
+    chore: Create second file
+
+commit 003d2d1c87c07d96d2568cdf5f7a0e19506efa3b
+Author: Asifiwe BUHENDWA <mickaelbhd@gmail.com>
+Date:   Mon Mar 3 11:34:47 2025 +0200
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git rebase main
+Successfully rebased and updated refs/heads/ft/new-branch-from-commit.
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git log
+commit 50bff9312609f943a9758c2c15172565bfc78cc3 (HEAD -> ft/new-branch-from-commit, main)
+Merge: 1648968 7a023e6
+Author: Asifiwe BUHENDWA <mickaelbhd@gmail.com>
+Date:   Tue Mar 4 10:51:16 2025 +0200
+
+    Merge branch 'ft/new-branch-from-commit'
+
+commit 7a023e67f55bbbad7bce24afec52e29cf00d5c78
+Author: Asifiwe BUHENDWA <mickaelbhd@gmail.com>
+Date:   Tue Mar 4 10:50:52 2025 +0200
+
+    Renaming readme file
+
+commit 16489686c9118b2415365435fed90496171950d4
+Merge: eba42aa eb26b5d
+Author: Asifiwe BUHENDWA <mickaelbhd@gmail.com>
+Date:   Tue Mar 4 10:34:00 2025 +0200
+
+    Adding new fearure from 'ft/new-feature' branch
+
+
+```
+
+### 9. Renaming Branches
+
+```bash
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git branch
+  ft/branch
+* ft/new-branch-from-commit
+  main
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git branch -m ft/new-branch-from-commit ft/google-auth 
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git branch
+  ft/branch
+* ft/google-auth
+  main
+
+```
+
+### 10. Checking Out Detached HEAD
+
+```bash
+
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git checkout 003d2d1c87c07d96d2568cdf5f7a0e19506efa3b
+Note: switching to '003d2d1c87c07d96d2568cdf5f7a0e19506efa3b'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by switching back to a branch.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -c with the switch command. Example:
+
+  git switch -c <new-branch-name>
+
+Or undo this operation with:
+
+  git switch -
+
+Turn off this advice by setting config variable advice.detachedHead to false
+
+HEAD is now at 003d2d1 chore: Create third file and fourth file
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git status
+HEAD detached at 003d2d1
+nothing to commit, working tree clean
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ 
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ touch tes5
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git status
+HEAD detached at 003d2d1
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	tes5
+
+nothing added to commit but untracked files present (use "git add" to track)
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git checkout main
+Previous HEAD position was 003d2d1 chore: Create third file and fourth file
+Switched to branch 'main'
+Your branch and 'origin/main' have diverged,
+and have 7 and 6 different commits each, respectively.
+  (use "git pull" if you want to integrate the remote branch with yours)
+
+```
+
 
 
