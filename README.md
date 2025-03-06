@@ -738,5 +738,188 @@ and have 7 and 6 different commits each, respectively.
 
 ```
 
+## Part 3 : Advanced Workflows
 
+### 1. Stashing Changes
 
+```bash
+
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git status
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   test1.md
+	modified:   test2.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git stash
+Saved working directory and index state WIP on main: 50bff93 Merge branch 'ft/new-branch-from-commit'
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git checkout ft/google-auth 
+Switched to branch 'ft/google-auth'
+```
+### 2. Retrieving Stashed Changes
+
+```bash
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git checkout main 
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git stash pop
+On branch main
+Your branch is up to date with 'origin/main'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   test1.md
+	modified:   test2.md
+
+no changes added to commit (use "git add" and/or "git commit -a")
+Dropped refs/stash@{0} (978a70575e11b1e20f3c05befb76aecd462fb42d)
+
+```
+### 3. Branch Merging Conflicts (Continued)
+
+```bash
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ vim test1.md 
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git add test1.md 
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git commit -m "some changes"
+[ft/google-auth f96c19e] some changes
+ 1 file changed, 2 insertions(+)
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git checkout ft/google-auth 
+Already on 'ft/google-auth'
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ vim test1.md 
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git reset
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git status
+On branch ft/google-auth
+nothing to commit, working tree clean
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ vim test1.md 
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git add test1.md 
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git commit -m "some changes"
+[ft/google-auth 1a84e5e] some changes
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git checkout main
+Switched to branch 'main'
+Your branch is up to date with 'origin/main'.
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ vim test1.md 
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git add test1.md 
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git commit -m "some changes"
+[main f073aee] some changes
+ 1 file changed, 1 insertion(+)
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git merge ft/google-auth 
+Auto-merging test1.md
+CONFLICT (content): Merge conflict in test1.md
+Automatic merge failed; fix conflicts and then commit the result.
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ vim test1.md 
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git add .
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git commit -m "Solve merge conflict"
+[main 660c624] Solve merge conflict
+
+```
+### 4. Resolving Merge Conflicts with a Merge Tool:
+
+```bash
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git merge ft/google-auth 
+Auto-merging test2.md
+CONFLICT (content): Merge conflict in test2.md
+Automatic merge failed; fix conflicts and then commit the result.
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git mergetmickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git mergetool --tool=vimdiff test2.md
+Merging:
+test2.md
+
+Normal merge conflict for 'test2.md':
+  {local}: modified file
+  {remote}: modified file
+4 files to edit
+```
+### 5. Understanding Detached HEAD State
+
+[Detached HEAD State](https://circleci.com/blog/git-detached-head-state/)
+```bash
+
+```
+### 6. Ignoring Files/Directories
+```bash
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ touch .gitignore
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ mkdir tmp
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ cd tmp
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise/tmp$ touch tmp-file.txt
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise/tmp$ cd ..
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git status
+On branch main
+Your branch is ahead of 'origin/main' by 6 commits.
+  (use "git push" to publish your local commits)
+
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+
+Changes to be committed:
+	modified:   test2.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.gitignore
+	test2.md.orig
+	tmp/
+
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ vim .gitignore 
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git status
+On branch main
+Your branch is ahead of 'origin/main' by 6 commits.
+  (use "git push" to publish your local commits)
+
+All conflicts fixed but you are still merging.
+  (use "git commit" to conclude merge)
+
+Changes to be committed:
+	modified:   test2.md
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	.gitignore
+	test2.md.orig
+
+```
+### 7. Working with Tags
+- [Git tags](https://www.tpointtech.com/git-tags)
+```bash
+git tag v0.1
+```
+### 8. Listing and Deleting Tags
+```bash
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git tag
+v0.1
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git tag -d v0.1
+Deleted tag 'v0.1' (was 124daf8)
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git tag
+```
+### 9. Pushing Local Work to Remote Repositories
+```bash
+git push origin main
+
+    Enumerating objects: 22, done.
+    Counting objects: 100% (21/21), done.
+    Delta compression using up to 4 threads
+    Compressing objects: 100% (12/12), done.
+    Writing objects: 100% (19/19), 1.49 KiB | 304.00 KiB/s, done.
+    Total 19 (delta 7), reused 0 (delta 0), pack-reused 0
+    remote: Resolving deltas: 100% (7/7), completed with 1 local object.
+    To https://github.com/angebhd/the-gym-advanced-git-exercise.git
+       50bff93..124daf8  main -> main
+
+```
+### 10. Pulling Changes from Remote Repositories
+```bash
+mickael-angebhd@AngeBHD-PC:~/Desktop/The Gym/the-gym-advanced-git-exercise$ git pull origin main 
+remote: Enumerating objects: 5, done.
+remote: Counting objects: 100% (5/5), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 1), reused 0 (delta 0), pack-reused 0 (from 0)
+Unpacking objects: 100% (3/3), 964 bytes | 964.00 KiB/s, done.
+From https://github.com/angebhd/the-gym-advanced-git-exercise
+ * branch            main       -> FETCH_HEAD
+   124daf8..fad4680  main       -> origin/main
+
+```
